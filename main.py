@@ -110,6 +110,31 @@ async def update_health_news_data():
     await insert_news_into_db(collection, response)
 
 
+# async function to update science news data
+
+async def update_science_news_data():
+
+    # Get api for science news from provider
+    api = ApiProvider.get_newsapi_for_science()
+
+    # Get top headlines response from news api
+    # with following queries:
+    # Country = India
+    # Category = Science
+    # langauge = English
+    # Page size = Maximum size provided by NewsApi. i.e 100.
+    response = api.get_top_headlines(country='in',
+                                     category='science',
+                                     language='en',
+                                     page_size=100)
+
+    # get science collection from db
+    collection = db.science
+
+    # Insert news into db
+    await insert_news_into_db(collection, response)
+
+
 # async function to update technology news data
 
 async def update_technology_news_data():
@@ -160,11 +185,12 @@ async def insert_news_into_db(collection, newsdata):
             collection.insert_many(newsdata['articles'])
 
 
-# Create a crontab to update news data for every 3 mintues
+# Create a crontabs to update news data for every 3 mintues
 aiocron.crontab("*/3 * * * *", func=update_business_news_data, start=True)
 aiocron.crontab("*/3 * * * *", func=update_entertainment_news_data, start=True)
 aiocron.crontab("*/3 * * * *", func=update_general_news_data, start=True)
 aiocron.crontab("*/3 * * * *", func=update_health_news_data, start=True)
+aiocron.crontab("*/3 * * * *", func=update_science_news_data, start=True)
 aiocron.crontab("*/3 * * * *", func=update_technology_news_data, start=True)
 
 # Run the asyncIO loop forever since its needed to run a coroutine.
