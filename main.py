@@ -9,8 +9,8 @@ mongo_connect = MongoDb.get_connection()
 # Get db instance
 db = mongo_connect.news_data
 
-# async function to update business news data
 
+# async function to update business news data
 
 async def update_business_news_data():
 
@@ -29,6 +29,31 @@ async def update_business_news_data():
                                      page_size=100)
 
     # get business collection from db
+    collection = db.business
+
+    # Insert news into db
+    await insert_news_into_db(collection, response)
+
+
+# async function to update entertainment news data
+
+async def update_entertainment_news_data():
+
+    # Get api for entertainment news from provider
+    api = ApiProvider.get_newsapi_for_entertainment()
+
+    # Get top headlines response from news api
+    # with following queries:
+    # Country = India
+    # Category = Entertainment
+    # langauge = English
+    # Page size = Maximum size provided by NewsApi. i.e 100.
+    response = api.get_top_headlines(country='in',
+                                     category='entertainment',
+                                     language='en',
+                                     page_size=100)
+
+    # get entertainment collection from db
     collection = db.business
 
     # Insert news into db
@@ -87,6 +112,7 @@ async def insert_news_into_db(collection, newsdata):
 
 # Create a crontab to update news data for every 3 mintues
 aiocron.crontab("*/3 * * * *", func=update_business_news_data, start=True)
+aiocron.crontab("*/3 * * * *", func=update_entertainment_news_data, start=True)
 aiocron.crontab("*/3 * * * *", func=update_technology_news_data, start=True)
 
 # Run the asyncIO loop forever since its needed to run a coroutine.
