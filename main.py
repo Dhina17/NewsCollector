@@ -86,8 +86,8 @@ async def insert_news_into_db(collection, newsdata):
 
 
 # Create a crontab to update news data for every 3 mintues
-aiocron.crontab("*/1 * * * *", func=update_business_news_data, start=True)
-aiocron.crontab("*/1 * * * *", func=update_technology_news_data, start=True)
+aiocron.crontab("*/3 * * * *", func=update_business_news_data, start=True)
+aiocron.crontab("*/3 * * * *", func=update_technology_news_data, start=True)
 
 # Run the asyncIO loop forever since its needed to run a coroutine.
 asyncio.get_event_loop().run_forever()
