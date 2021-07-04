@@ -1,11 +1,11 @@
 from newsapi import NewsApiClient
 import os
 
-TOP_HEADLINES_API_KEY = os.getenv("TOP_HEADLINES_API_KEY")
+TECHNOLOGY_NEWS_API_KEY = os.getenv("TOP_HEADLINES_API_KEY")
 
 
 class ApiProvider:
 
     @staticmethod
-    def get_top_headlines_api():
-        return NewsApiClient(api_key=TOP_HEADLINES_API_KEY)
+    def get_newsapi_for_technology():
+        return NewsApiClient(api_key=TECHNOLOGY_NEWS_API_KEY)

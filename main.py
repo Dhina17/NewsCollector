@@ -1,6 +1,7 @@
 from api.provider import ApiProvider
 from db.mongodb import MongoDb
-import aiocron, asyncio
+import aiocron
+import asyncio
 
 # Get mongodb atlas cloud connection
 mongo_connect = MongoDb.get_connection()
@@ -8,11 +9,13 @@ mongo_connect = MongoDb.get_connection()
 # Get db instance
 db = mongo_connect.news_data
 
-# async function to update top_headlines
-async def update_top_headlines():
+# async function to update technology news data
+
+
+async def update_technology_news_data():
 
     # Get api for top headlines from provider
-    api = ApiProvider.get_top_headlines_api()
+    api = ApiProvider.get_newsapi_for_technology()
 
     # Get top headlines response from news api
     # with following queries:
@@ -20,11 +23,12 @@ async def update_top_headlines():
     # langauge = English
     # Page size = Maximum size provided by NewsApi. i.e 100.
     response = api.get_top_headlines(country='in',
+                                     category='technology',
                                      language='en',
                                      page_size=100)
 
     # get top headlines collection from db
-    collection = db.top_headlines
+    collection = db.technology
 
     # Only do db actios if the news api request succeed.
     if response['status'] == 'ok':
@@ -47,7 +51,7 @@ async def update_top_headlines():
 
 
 # Create a crontab to update news data for every 3 mintues
-aiocron.crontab("*/3 * * * *", func=update_top_headlines, start=True)
+aiocron.crontab("*/3 * * * *", func=update_technoloy_news_data, start=True)
 
 # Run the asyncIO loop forever since its needed to run a coroutine.
 asyncio.get_event_loop().run_forever()
