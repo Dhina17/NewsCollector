@@ -6,6 +6,7 @@ ENTERTAINMENT_NEWS_API_KEY = os.getenv("ENTERTAINMENT_NEWS_API_KEY")
 GENERAL_NEWS_API_KEY = os.getenv("GENERAL_NEWS_API_KEY")
 HEALTH_NEWS_API_KEY = os.getenv("HEALTH_NEWS_API_KEY")
 SCIENCE_NEWS_API_KEY = os.getenv("SCIENCE_NEWS_API_KEY")
+SPORTS_NEWS_API_KEY = os.getenv("SPORTS_NEWS_API_KEY")
 TECHNOLOGY_NEWS_API_KEY = os.getenv("TECHNOLOGY_NEWS_API_KEY")
 
 
@@ -30,6 +31,10 @@ class ApiProvider:
     @staticmethod
     def get_newsapi_for_science():
         return NewsApiClient(api_key=SCIENCE_NEWS_API_KEY)
+
+    @staticmethod
+    def get_newsapi_for_sports():
+        return NewsApiClient(api_key=SPORTS_NEWS_API_KEY)
 
     @staticmethod
     def get_newsapi_for_technology():
