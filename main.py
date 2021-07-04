@@ -54,7 +54,7 @@ async def update_entertainment_news_data():
                                      page_size=100)
 
     # get entertainment collection from db
-    collection = db.business
+    collection = db.entertainment
 
     # Insert news into db
     await insert_news_into_db(collection, response)
