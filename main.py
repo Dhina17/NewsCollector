@@ -1,4 +1,3 @@
-from re import X
 from api.provider import ApiProvider
 from db.mongodb import MongoDb
 import aiocron
@@ -32,24 +31,8 @@ async def update_business_news_data():
     # get business collection from db
     collection = db.business
 
-    # Only do db actios if the news api request succeed.
-    if response['status'] == 'ok':
-
-        # Check for documents are present or not
-        # If present, delete old docs and insert new docs.
-        if collection.count_documents({}) > 0:
-
-            # Delete all the existing documents.
-            # Our moto is to only show latest 100 news.
-            # and also to avoid duplicates.
-            collection.delete_many({})
-
-            # Insert news articles to the db collection
-            collection.insert_many(response['articles'])
-
-        # If docs are not found, just insert new docs.
-        else:
-            collection.insert_many(response['articles'])
+    # Insert news into db
+    await insert_news_into_db(collection, response)
 
 
 # async function to update technology news data
@@ -73,8 +56,17 @@ async def update_technology_news_data():
     # get technology collection from db
     collection = db.technology
 
+    # Insert news into db
+    await insert_news_into_db(collection, response)
+
+
+# Function to insert news data into database
+# params - database collection instance, newsdata
+
+async def insert_news_into_db(collection, newsdata):
+
     # Only do db actios if the news api request succeed.
-    if response['status'] == 'ok':
+    if newsdata['status'] == 'ok':
 
         # Check for documents are present or not
         # If present, delete old docs and insert new docs.
@@ -86,11 +78,11 @@ async def update_technology_news_data():
             collection.delete_many({})
 
             # Insert news articles to the db collection
-            collection.insert_many(response['articles'])
+            collection.insert_many(newsdata['articles'])
 
         # If docs are not found, just insert new docs.
         else:
-            collection.insert_many(response['articles'])
+            collection.insert_many(newsdata['articles'])
 
 
 # Create a crontab to update news data for every 3 mintues
