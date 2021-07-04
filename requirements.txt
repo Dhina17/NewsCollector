@@ -1,3 +1,4 @@
+aiocron==1.6
 dnspython==2.1.0
 newsapi-python==0.2.6
 pymongo==3.11.4
