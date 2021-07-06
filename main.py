@@ -210,14 +210,14 @@ async def insert_news_into_db(collection, newsdata):
             collection.insert_many(newsdata['articles'])
 
 
-# Create a crontabs to update news data for every 3 mintues
-aiocron.crontab("*/3 * * * *", func=update_business_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_entertainment_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_general_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_health_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_science_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_sports_news_data, start=True)
-aiocron.crontab("*/3 * * * *", func=update_technology_news_data, start=True)
+# Create a crontabs to update news data for every 30 mintues
+aiocron.crontab("*/30 * * * *", func=update_business_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_entertainment_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_general_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_health_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_science_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_sports_news_data, start=True)
+aiocron.crontab("*/30 * * * *", func=update_technology_news_data, start=True)
 
 # Run the asyncIO loop forever since its needed to run a coroutine.
 asyncio.get_event_loop().run_forever()
